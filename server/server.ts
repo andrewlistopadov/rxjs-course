@@ -3,6 +3,7 @@ import { Application } from 'express';
 import { getAllCourses, getCourseById } from './get-courses.route';
 import { searchLessons } from './search-lessons.route';
 import { saveCourse } from './save-course.route';
+import { AddressInfo } from 'net';
 
 const bodyParser = require('body-parser');
 
@@ -19,7 +20,6 @@ app.route('/api/lessons').get(searchLessons);
 app.route('/api/courses/:id').put(saveCourse);
 
 const httpServer = app.listen(9000, () => {
-  const addr = httpServer.address();
-  const bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
-  console.log(`HTTP REST API Server running at http://localhost: ${bind}`);
+  const { port } = httpServer.address() as AddressInfo;
+  console.log(`HTTP REST API Server running at http://localhost: ${port}`);
 });
